@@ -1,9 +1,9 @@
 import React from 'react'
-import Share from '../components/Share/Share'
+import Share from '../Share/Share'
 import './feed.css'
 import { Icon ,HomeIcon} from '@mui/material'
-import Post from '../components/post/Post'
-import {Posts} from '../dummyData'
+import Post from '../post/Post'
+import {Posts} from '../../dummyData'
 
 
 export default function Feed() {

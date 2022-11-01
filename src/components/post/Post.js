@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import MoreVertRoundedIcon from "@mui/icons-material/MoreVertRounded";
 import './post.css';
 import {Users} from '../../dummyData'
 
 export default function ({post}) {
+  const [like, setlike] = useState(post.like)
+  const [islike, setislike] = useState(false)
   const newUsers=Users.filter((itm)=>{
     return(
       itm.id===post.id
@@ -12,6 +14,8 @@ export default function ({post}) {
   })
   const [destructerdfilteredArray]= newUsers
   console.log(destructerdfilteredArray)
+
+
 
 
   return (
@@ -31,14 +35,17 @@ export default function ({post}) {
 
         <div className="postCenter">
             <span className="postText">{post.desc?post.desc:""}</span>
-            <img src="assets/post/1.jpeg" alt="" className="postImg" />
+            <img src={post.photo} alt="" className="postImg" />
         </div>
 
         <div className="postBottom">
             <div className="postBottomLeft">
-                <img src="assets/like.png" alt="" className="likeIcon" />
+                <img onClick={()=>{
+                  setlike(islike?like-1:like+1)
+                  setislike(!islike)
+                }} src="assets/like.png" alt="" className="likeIcon" />
                 <img src="assets/heart.png" alt="" className="likeIcon" />
-                <span className="postLikeCounter">{post.like} people liked it</span>
+                <span className="postLikeCounter">{like} people liked it</span>
             </div>
             <div className="postBottomRight">
                 <span className="postCommentText">{post.comment} comments</span>
