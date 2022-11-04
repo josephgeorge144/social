@@ -4,11 +4,15 @@ import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+import { Link } from "react-router-dom";
 function Topbar() {
+  console.log('topbar');
   return (
     <div className="topbarConatiner">
       <div className="topbarLeft">
+        <Link to='/' style={{textDecoration:"none"}}>
         <span className="logo">JG Venmeli</span>
+        </Link>"
       </div>
       <div className="topbarCenter">
         <div className="searchbar">

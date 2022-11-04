@@ -53,6 +53,12 @@
 .loginInput:focus{
     outline: none;
 }
+.loginButton:disabled{
+  cursor:not-allowed;
+}
+.loginButton:focus{
+  outline:none;
+}
 
 .loginButton{
     height: 50px;
@@ -82,3 +88,4 @@
     font-weight: 500;
     cursor: pointer;
 }
+
