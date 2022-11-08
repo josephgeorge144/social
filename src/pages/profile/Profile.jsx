@@ -22,13 +22,14 @@ export default function Profile() {
     const fetchData=async ()=>{
       const res=await axios.get(`/user?username=${params.username}`)
       setUser(res.data)
+      console.log(`user is ${user}`)
 
     }
     fetchData ()
    
     
 
-  },[])
+  },[params.username])
 
 
   return (
@@ -42,7 +43,12 @@ export default function Profile() {
             <div className="profileCover">
               <img
                 className="profileCoverImg"
-                 src={user.coverPicture==="" ? user.profilePicture : PF + "/person/" + user.profilePicture}
+                //  src={user.coverPicture==="" ? PF + "/person/1.jpeg" :user.profilePicture  }
+                src={
+                  user.coverPicture === ""
+                    ? PF + "/person/" + "/avatar.jpg"
+                    : PF + "/person/" + user.coverPicture
+                }
                 alt=""
               />
               <img
@@ -59,7 +65,7 @@ export default function Profile() {
           </div>
           <div className="profileRightBottom">
             <Feed username={user.username}/>
-            <Rightbar user={user.username}/>
+            <Rightbar user={user}/>
           </div>
         </div>
       </div>

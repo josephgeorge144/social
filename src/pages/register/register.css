@@ -19,6 +19,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  
 }
 
 .loginLogo {
@@ -39,7 +40,7 @@
     border-radius: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    align-content: space-around;
 }
 
 .loginInput{
@@ -67,7 +68,7 @@
 
 .loginForgot{
     text-align: center;
-    color: #1775ee;
+    color: #17eeb1;
 }
 
 .loginRegisterButton{
@@ -76,8 +77,8 @@
     height: 50px;
     border-radius: 10px;
     border: none;
-    background-color: #42b72a;
-    color: white;
+    background-color: #050f02;
+    color: rgb(192, 25, 25);
     font-size: 20px;
     font-weight: 500;
     cursor: pointer;

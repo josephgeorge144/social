@@ -2,23 +2,71 @@ import "./rightbar.css";
 
 import { Users } from "../../dummyData";
 import Online from "../online/Online";
-import { useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../../context/AuthContext";
+import { buttonBaseClasses } from "@mui/material";
+import { Add } from "@mui/icons-material";
+import { Remove } from "@mui/icons-material";
 
-export default function Rightbar({ user }) {
 
-  // useEffect(()=>{
-  //   const fetchData=async ()=>{
-  //     const res=await axios.get('/user?username=jomol' )
-  //     setUser(res.data)
+export default function   Rightbar({ user }) {
 
-  //   }
-  //   fetchData ()
+  const PF=process.env.REACT_APP_PUBLIC_FOLDER;
+  const [friends, setfriends] = useState([])
+  const {user:currentUser,dispatch}=useContext(AuthContext)// current user is basicly deconstrucyting metghod,, checj notes, new name to user
+  const [followed,setFollowed]=useState(currentUser.followins.includes(user?.id))
+useEffect(()=>{
+  
+  setFollowed(currentUser.followins.includes(user?.id))// same as writing, user ? user.id
+},[currentUser,user])
+
+
+
+
+  useEffect(()=>{
+
+    
+    const getFriends=async ()=>{
+      
+      try{const friendList=await axios.get('/user/friends/'+ user._id )
+      setfriends(friendList.data)}
+      catch(err){
+        console.log(err);
+
+      }
+      
+     
+
+    }
+    
+    getFriends()
    
     
 
-  // },[])
+  },[user]); 
 
-  const PF=process.env.REACT_APP_PUBLIC_FOLDER;
+  const handleClick=async()=>{
+    try{
+      if(followed){
+        await axios.put('/user/'+user._id+'/unfollow',{userId:currentUser._id});
+        dispatch({type:'UNFOLLOW',payload:user._id})
+      }
+      else{
+        await axios.put('/user/'+user._id+'/follow',{userId:currentUser._id})
+        dispatch({type:'FOLLOW',payload:user._id})
+      }
+    }
+    catch(err){
+      console.log(err);
+    }
+    setFollowed(!followed)
+
+  }
+
+  
+ 
   const HomeRightbar = () => {
 
     return (
@@ -43,6 +91,12 @@ export default function Rightbar({ user }) {
   const ProfileRightbar = () => {
     return (
       <>
+      {user.username!==currentUser.username && <button className="rightbarFollowButton" onClick={handleClick}>
+        {followed ? 'Unfollow':'Follow'}
+        {followed ? <Remove/>:<Add/>}
+      </button>
+
+      }
         <h4 className="rightbarTitle">User information</h4>
         <div className="rightbarInfo">
           <div className="rightbarInfoItem">
@@ -61,61 +115,32 @@ export default function Rightbar({ user }) {
         <h4 className="rightbarTitle">User friends</h4>
         <div className="rightbarFollowings">
 
-          {/* {user.followins.map(()=>{
-            return(
-             rbfolloeins= 
-            )
-          }) */}
+          
 
+            {friends.map((friend)=>(
+              <Link to={'/profile/'+friend.username}>
+              <div className="rightbarFollowing">
+                <img
+            src={
+              user.coverPicture === ""
+                ? PF + "/person/" + "/avatar.jpg"
+                : PF + "/person/" + friend.profilePicture
+            }
+              alt=""
+              className="rightbarFollowingImg"
+            />
+             <span className="rightbarFollowingName">{friend.username}</span>
+             </div>
+             </Link>
 
-          <div className="rightbarFollowing">
-            <img
-              src="assets/person/1.jpeg"
-              alt=""
-              className="rightbarFollowingImg"
-            />
-            <span className="rightbarFollowingName">John Carter</span>
-          </div>
-          <div className="rightbarFollowing">
-            <img
-              src="assets/person/2.jpeg"
-              alt=""
-              className="rightbarFollowingImg"
-            />
-            <span className="rightbarFollowingName">John Carter</span>
-          </div>
-          <div className="rightbarFollowing">
-            <img
-              src="assets/person/3.jpeg"
-              alt=""
-              className="rightbarFollowingImg"
-            />
-            <span className="rightbarFollowingName">John Carter</span>
-          </div>
-          <div className="rightbarFollowing">
-            <img
-               src={`${PF}/person/4.jpeg`}
-              alt=""
-              className="rightbarFollowingImg"
-            />
-            <span className="rightbarFollowingName">John Carter</span>
-          </div>
-          <div className="rightbarFollowing">
-            <img
-              src="assets/person/5.jpeg"
-              alt=""
-              className="rightbarFollowingImg"
-            />
-            <span className="rightbarFollowingName">John Carter</span>
-          </div>
-          <div className="rightbarFollowing">
-            <img
-              src={`${PF}/person/6.jpeg`}
-              alt=""
-              className="rightbarFollowingImg"
-            />
-            <span className="rightbarFollowingName">John Carter</span>
-          </div>
+            ))}
+            
+           
+       
+          
+          
+          
+          
         </div>
       </>
     );

@@ -89,4 +89,8 @@
     height: 32px;
     border-radius: 50%;
     object-fit: cover;
+    
+}
+.topbarname{
+    margin-right: 6cm;
 }
